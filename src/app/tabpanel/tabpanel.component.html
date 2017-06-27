@@ -1,0 +1,39 @@
+<p-tabView (onClose)="onTabClose($event)" (onChange)="onTabChange($event)">
+
+    <p-tabPanel *ngFor="let tab of tabs" header="{{tab.menuName}}" [selected]="tab.isSelected" [closable]="tab.isClosable">
+
+        {{tab.content}}
+
+
+        <p-fieldset legend="Arama Kriterleri">
+            Buraya dinamik fieldlar gelecek
+        </p-fieldset>
+
+        <p-toolbar>
+
+            <div class="ui-toolbar-group-left">
+                <button pButton type="button" label="New" icon="fa-plus"></button>
+                <button pButton type="button" label="Open" icon="fa-folder-open"></button>
+                <button pButton type="button" (click)="onclick()" label="Click"></button>
+
+                <i class="fa fa-bars"></i>
+
+                <!--<p-splitButton label="Save" icon="fa-check" [model]="items"></p-splitButton>-->
+            </div>
+
+            <div class="ui-toolbar-group-right">
+                <button pButton type="button" icon="fa-search"></button>
+                <i class="fa fa-bars"></i>
+                <button pButton type="button" icon="fa-refresh"></button>
+                <button pButton type="button" icon="fa-trash"></button>
+            </div>
+        </p-toolbar>
+
+        <div>
+           <app-grid></app-grid>
+        </div>
+
+
+    </p-tabPanel>
+
+</p-tabView>
