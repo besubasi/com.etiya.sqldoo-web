@@ -1,3 +1,17 @@
 <!--<h3>Menu</h3>-->
 
+<p-toolbar>
+    <div class="ui-toolbar-group-left">
+        <p-dialog header="New Menu" [(visible)]="display">
+<app-addmenu></app-addmenu>
+        </p-dialog>
+        <button type="text" (click)="newDialog()" pButton icon="fa-external-link-square" label="New"></button>
+        <i class="fa fa-bars"></i>
+    </div>
+
+    <div class="ui-toolbar-group-right">
+        <button pButton type="button" icon="fa-search"></button>
+      
+    </div>
+</p-toolbar>
 <p-panelMenu [model]="items" [style]="{'width':'300px'}"></p-panelMenu>

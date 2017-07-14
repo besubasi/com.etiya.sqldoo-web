@@ -1,0 +1,12 @@
+<form [formGroup]="userform" (ngSubmit)="onSubmit(userform.value)">
+<h3 class="first">Parent Menu Id:</h3>
+<input id="in" type="text" size="30" formControlName="firstname" pInputText [(ngModel)]="fisim">
+ 
+<h3 class="first">Menu Name:</h3>
+<input id="in" type="text" size="30"  formControlName="lastname" pInputText [(ngModel)]="lisim">
+ 
+<h3 class="first">Width:</h3>
+<input id="in" type="text" size="30" formControlName="password" pInputText [(ngModel)]="text">  {{text}}
+
+<button pButton type="submit" (click)="AddMenu()" pButton icon="fa-external-link-square" label="Kayıt Et" [disabled]="!userform.valid"></button>
+</form>

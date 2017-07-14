@@ -1,13 +1,88 @@
-<p-tabView (onClose)="onTabClose($event)" (onChange)="onTabChange($event)">
+<p-tabView [controlClose]="true" (onClose)="onTabClose($event)" (onChange)="onTabChange($event)">
 
     <p-tabPanel *ngFor="let tab of tabs" header="{{tab.menuName}}" [selected]="tab.isSelected" [closable]="tab.isClosable">
 
-        {{tab.content}}
+        
+
+        <div *ngIf="!tab.isClosable">
+
+            <button pButton type="button" label="Click"></button>
+        </div>
+
+
+        <div *ngIf="tab.isClosable">
+
+            <div>
+
+                <p-dialog header="Creating Filter" [(visible)]="display">
+                    <app-addfilter></app-addfilter>
+
+                    <!--<button type="text" (click)="CreateFilter(tab.menuId)" pButton icon="fa-external-link-square" label="Show"></button>
+               --></p-dialog>
+                <!--<p-dialog header="Mevcut Filtreler"  [(visible)]="goster">
+                    <div class="ui-widget-header" style="padding:4px 10px;border-bottom: 0 none">
+                        <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                        <h3 class="first">{{filter}}</h3>
+                        <input id="in" type="text" size="30" pInputText [(ngModel)]="text"> {{text}}
+                    </div>
+                </p-dialog>-->
+
+
+                <p-fieldset>
+                    <p-header>Arama Kriterleri</p-header>
+                    <app-filter></app-filter>
+                </p-fieldset>
+
+
+                <button pButton type="button" (click)="refreshGrid(tab.menuId)" label="Refresh"></button>
+                <button type="text" (click)="showDialog(tab.menuId)" pButton icon="fa-external-link-square" label="Show"></button>
+                <button pButton type="button" label="Ara"></button>
+
+                <!-- <div class="ui-widget-header" style="padding:4px 10px;border-bottom: 0 none">
+                    <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                   <input #gb type="text" pInputText size="50" placeholder="Global Filter">
+                </div>
+                <p-dataTable [value]="cars" [rows]="10" [paginator]="true" [globalFilter]="gb" #dt>
+                    <p-header>List of Cars</p-header>
+                    <p-column field="vin" header="Vin (startsWith)" [filter]="true" filterPlaceholder="Search"></p-column>
+                    <p-column field="year" header="Year ({{yearFilter||'No Filter'}})" [filter]="true" filterMatchMode="equals">
+                        <ng-template pTemplate="filter" let-col>
+                            <i class="fa fa-close" (click)="yearFilter=null;dt.filter(null,col.field,col.filterMatchMode)"></i>
+                        </ng-template>
+                    </p-column>
+                    <p-column field="brand" header="Brand (Custom)" [filter]="true" filterMatchMode="equals">
+                        <ng-template pTemplate="filter" let-col>
+                        </ng-template>
+                    </p-column>
+                    <p-column field="color" header="Color (Custom)" [filter]="true" filterMatchMode="in">
+                        <ng-template pTemplate="filter" let-col>
+                        </ng-template>
+                    </p-column>
+                </p-dataTable>-->
+
+            </div>
+
+            <p-dataTable [value]="cars">
+                <p-column *ngFor="let col of cols" [field]="col.field" [header]="col.header"></p-column>
+
+            </p-dataTable>
+        </div>
+
+        <p-column field="vin" header="Vin" [sortable]="true"></p-column>
+
+
+
+        <!--
+<label>Yeni Menü Adı: <input #newMenuName /></label>
+<button (click)="addHero(newHeroName.value); newHeroName.value=''">Menü Ekle</button>
+
+<p class="error" *ngIf="errorMessage">{{errorMessage}}</p>
 
 
         <p-fieldset legend="Arama Kriterleri">
             Buraya dinamik fieldlar gelecek
         </p-fieldset>
+        
 
         <p-toolbar>
 
@@ -18,7 +93,6 @@
 
                 <i class="fa fa-bars"></i>
 
-                <!--<p-splitButton label="Save" icon="fa-check" [model]="items"></p-splitButton>-->
             </div>
 
             <div class="ui-toolbar-group-right">
@@ -29,10 +103,7 @@
             </div>
         </p-toolbar>
 
-        <div>
-           <app-grid></app-grid>
-        </div>
-
+-->
 
     </p-tabPanel>
 
