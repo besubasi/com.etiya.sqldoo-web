@@ -1,5 +1,7 @@
 import { EventEmitter } from '@angular/core';
 import { MenuItem } from "primeng/primeng";
+
+
 export class DefaultMenuItem implements MenuItem {
     
     label?: string;
@@ -16,4 +18,9 @@ export class DefaultMenuItem implements MenuItem {
     target?: string;
     routerLinkActiveOptions?: any;
     separator?: boolean;
+
+    menuId?: string;
+    parentMenuId?: number;
+    userId?: number;
+
 }

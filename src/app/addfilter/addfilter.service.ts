@@ -3,31 +3,33 @@ import { Filtre } from './addfilter'
 import { FilterList } from './addfilterlist';
 import { Component, OnInit } from '@angular/core';
 import { TAB_LIST } from "../tabpanel/tablist";
-import {Tab}from "../tabpanel/tab"
-import {TabpanelService} from "../tabpanel/tabpanel.service"
+import { Tab } from "../tabpanel/tab"
+import { TabpanelService } from "../tabpanel/tabpanel.service"
 @Injectable()
 export class FilterService {
 
     pmenuId: number;
     submitted: boolean;
-    aa : Filtre[];
+    aa: Filtre[];
     deneme: Tab;
     local: Tab[];
-    constructor(private tabpanelservice:TabpanelService) {
+    constructor(private tabpanelservice: TabpanelService) {
 
-    
+
     }
-    
-    getFilterList(aa:Filtre[]) {
-        this.local=this.tabpanelservice.getTabList();
-        
-        //console.log(FilterList.pop());
-        for(var i=0; i<aa.length;i++){ 
-        this.pmenuId=this.local[i+1].menuId
+
+    getFilterList(aa: Filtre[]) {
+        this.local = this.tabpanelservice.getTabList();
+
         console.log(this.pmenuId);
-        if(aa[i].menuId==this.pmenuId)
-        this.addToFiltreList(aa[i]);
-        console.log(FilterList);
+
+        
+        for (var i = 0; i < aa.length; i++) {
+            this.pmenuId = this.local[i + 1].menuId
+            console.log(this.pmenuId);
+            if (aa[i].menuId == this.pmenuId)
+                this.addToFiltreList(aa[i]);
+            console.log(FilterList);
         }
     }
 
