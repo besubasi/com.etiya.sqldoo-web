@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FilterList } from '../addfilter/addfilterlist';
-import { FilterService } from '../addfilter/addfilter.service';
+import { AddFilterService } from '../addfilter/addfilter.service';
 import { Filtre } from '../addfilter/addfilter'
 import { Tab } from "./tab";
 import { TAB_LIST } from "./tablist";

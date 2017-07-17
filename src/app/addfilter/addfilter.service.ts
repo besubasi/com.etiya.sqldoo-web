@@ -14,7 +14,7 @@ export class AddFilterService {
     aa: Filtre[];
     deneme: Tab;
     local: Tab[];
-    constructor(private tabpanelservice: TabpanelService) {
+    constructor(private tabpanelservice: TabpanelService,private filterService:FilterService) {
 
 
     }
