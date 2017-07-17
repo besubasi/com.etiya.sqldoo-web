@@ -5,8 +5,9 @@ import { Component, OnInit } from '@angular/core';
 import { TAB_LIST } from "../tabpanel/tablist";
 import { Tab } from "../tabpanel/tab"
 import { TabpanelService } from "../tabpanel/tabpanel.service"
+import {FilterService} from "../filter/filter.service"
 @Injectable()
-export class FilterService {
+export class AddFilterService {
 
     pmenuId: number;
     submitted: boolean;
@@ -24,8 +25,10 @@ export class FilterService {
         console.log(this.pmenuId);
 
         
-        for (var i = 0; i < aa.length; i++) {
-            this.pmenuId = this.local[i + 1].menuId
+        for (var i = 1; i < aa.length; i++) {
+            console.log(this.local[i ]);
+            var idd = this.local[i].menuId;
+            this.pmenuId = idd;
             console.log(this.pmenuId);
             if (aa[i].menuId == this.pmenuId)
                 this.addToFiltreList(aa[i]);

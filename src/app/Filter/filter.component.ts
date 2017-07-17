@@ -8,16 +8,16 @@ import { Component, OnInit } from '@angular/core';
 //import {CommonModule} from '@angular/common'
 //import { OverlayPanelModule } from 'primeng/primeng';
 import { FilterList } from '../addfilter/addfilterlist';
-import { FilterService } from '../addfilter/addfilter.service';
+import { AddFilterService } from '../addfilter/addfilter.service';
 import { Filtre } from '../addfilter/addfilter'
-import { GetFilterService } from './filter.service'
+import { FilterService } from './filter.service'
 //import { Validators, FormControl, FormGroup, FormBuilder } from '@angular/forms';
 //import { Message } from '../../../node_modules/primeng/components/common/api';
 @Component({
     selector: 'app-filter',
     templateUrl: './filter.component.html',
     styleUrls: ['./filter.component.css'],
-    providers: [FilterService,GetFilterService]
+    providers: [AddFilterService,FilterService]
 })
 
 export class FilterComponent implements OnInit {
@@ -30,15 +30,15 @@ export class FilterComponent implements OnInit {
     lisim: string;
     display: boolean = false;
 
-    constructor(private filterService: FilterService, private getfilterService:GetFilterService) {
+    constructor(private addfilterService: AddFilterService, private filterService:FilterService) {
             
     }
 
 
     ngOnInit() {
         console.log("al veriyi al");
-        this.getfilterService.getFilters().then(tt =>
-            (this.filterService.getFilterList(tt)
+        this.filterService.getFilters().then(tt =>
+            (this.addfilterService.getFilterList(tt)
             ) 
 
         );

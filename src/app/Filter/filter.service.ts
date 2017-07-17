@@ -4,7 +4,7 @@ import { Filtre } from '../addfilter/addfilter'
 
 
 @Injectable()
-export class GetFilterService {
+export class FilterService {
 
   private filterUrl: string = 'http://localhost:8080/listSearchColumn';
   constructor(private http: Http) {

@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
 //import { SelectItem } from '../domain/api';
 //import { OverlayPanelModule } from 'primeng/primeng';
 //import { FilterList } from './addfilterlist';
-import { FilterService } from './addfilter.service';
+import { AddFilterService } from './addfilter.service';
 import { Filtre } from './addfilter'
 //import { Router } from '@angular/router';
 //import { LocalStorageModule } from 'angular-2-local-storage';
@@ -16,14 +16,14 @@ import { Filtre } from './addfilter'
     selector: 'app-addfilter',
     templateUrl: './addfilter.component.html',
     styleUrls: ['./addfilter.component.css'],
-    providers: [FilterService]
+    providers: [AddFilterService]
 })
 
 export class AddFilterComponent implements OnInit {
     fisim: string;
     lisim: string;
 
-    constructor(private filterService: FilterService) {
+    constructor(private addfilterService: AddFilterService) {
     }
 
 
@@ -37,7 +37,7 @@ export class AddFilterComponent implements OnInit {
         deneme.filterName = this.fisim;
         deneme.labelName = this.lisim;
         console.log(deneme.filterName + "   " + deneme.labelName);
-        this.filterService.addToFiltreList(deneme);
+        this.addfilterService.addToFiltreList(deneme);
 
     }
 

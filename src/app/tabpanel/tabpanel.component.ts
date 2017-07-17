@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FilterList } from '../addfilter/addfilterlist';
-import { FilterService } from '../addfilter/addfilter.service';
+import { AddFilterService } from '../addfilter/addfilter.service';
 import { Filtre } from '../addfilter/addfilter'
 import { Tab } from "app/tabpanel/Tab";
 import { TabpanelService } from "app/tabpanel/tabpanel.service";
@@ -32,7 +32,7 @@ colors: SelectItem[];
 display:boolean=false;
 goster:boolean=false;
   constructor(private router:Router,private tabpanelService: TabpanelService, 
-  private FilterService:FilterService) {
+  private addfilterService:AddFilterService) {
     this.tabs = this.tabpanelService.getTabList();
     
   }
@@ -74,7 +74,7 @@ goster:boolean=false;
     //this.tabs = this.tabpanelService.getTabList();
   }
  showDialog(menuId) {
-   this.FilterService.createFilter(menuId);
+   this.addfilterService.createFilter(menuId);
         this.display = true;
     }
   showToolbar(){
@@ -82,7 +82,7 @@ goster:boolean=false;
   }
 
   CreateFilter(menuId){
-    this.FilterService.createFilter(menuId);
+    this.addfilterService.createFilter(menuId);
 
   }
   onTabClose(event) {
@@ -245,7 +245,7 @@ this.cols = this.tabpanelService.addFilter(this.pmenuId);
 
   filtre(){
     console.log("filter ın içinde");
-    this.FilterService.createFilter();
+    this.addfilterService.createFilter();
   }
 }
 

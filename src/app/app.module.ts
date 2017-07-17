@@ -5,7 +5,7 @@ import { HttpModule } from '@angular/http';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { FilterService } from './addfilter/addfilter.service'
+import { AddFilterService } from './addfilter/addfilter.service'
 import { AddFilterComponent } from './addfilter/addfilter.component'
 import { AppComponent } from './app.component';
 import { MenuComponent } from './menu/menu.component';
@@ -14,7 +14,7 @@ import { TabpanelComponent } from './tabpanel/tabpanel.component';
 import { TabpanelService } from "./tabpanel/tabpanel.service";
 //import {OverlayPanelModule} from 'primeng/components/overlaypanel';
 import { FilterComponent } from "./Filter/filter.component"
-import { GetFilterService } from "./filter/filter.service";
+import { FilterService } from "./filter/filter.service";
 import { MenuService} from "./addmenu/addmenuservice";
 import { AddMenuComponent } from './addmenu/addmenucomponent';
 import {GetMenuService} from './menu/menu.service';
@@ -89,8 +89,8 @@ const appRoutes: Routes = [
   ],
   providers: [
     TabpanelService,
+    AddFilterService,
     FilterService,
-    GetFilterService,
     MenuService,
     GetMenuService
   ],

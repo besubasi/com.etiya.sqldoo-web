@@ -60,7 +60,7 @@ export class MenuComponent implements OnInit {
                 let tab = new Tab();
                 tab.menuId = theMenu.menuId;
                 tab.menuName = theMenu.label;
-                tab.content = "Detail of " + theMenu.label;
+                tab.content = "Detail of " + theMenu.label+", tab.menuId ="+tab.menuId ;
                 tab.isClosable = true;
                 tab.isSelected = true;
                 this.tabpanelService.addToTabList(tab);
