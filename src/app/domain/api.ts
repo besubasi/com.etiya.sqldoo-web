@@ -1,1 +1,0 @@
-export {SelectItem} from "app/domain/select";

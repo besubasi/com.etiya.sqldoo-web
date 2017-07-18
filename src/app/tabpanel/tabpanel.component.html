@@ -2,8 +2,6 @@
 
     <p-tabPanel *ngFor="let tab of tabs" header="{{tab.menuName}}" [selected]="tab.isSelected" [closable]="tab.isClosable">
 
-        
-
         <div *ngIf="!tab.isClosable">
 
             <button pButton type="button" label="Click"></button>
@@ -12,99 +10,89 @@
 
         <div *ngIf="tab.isClosable">
 
+            <!-- Search Columns -->
             <div>
-
-                <p-dialog header="Creating Filter" [(visible)]="display">
-                    <app-addfilter></app-addfilter>
-
-                    <!--<button type="text" (click)="CreateFilter(tab.menuId)" pButton icon="fa-external-link-square" label="Show"></button>
-               --></p-dialog>
-                <!--<p-dialog header="Mevcut Filtreler"  [(visible)]="goster">
-                    <div class="ui-widget-header" style="padding:4px 10px;border-bottom: 0 none">
-                        <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
-                        <h3 class="first">{{filter}}</h3>
-                        <input id="in" type="text" size="30" pInputText [(ngModel)]="text"> {{text}}
-                    </div>
-                </p-dialog>-->
-
-
                 <p-fieldset>
                     <p-header>Arama Kriterleri</p-header>
-                    <app-filter></app-filter>
+                    <input *ngFor="let column of columns" type="column.type" pInputText size="50" placeholder="{{column.label}}">
+                    <!--<div class="ui-widget-header" style="padding:4px 10px;border-bottom: 0 none"> </div>-->
                 </p-fieldset>
-
-
-                <button pButton type="button" (click)="refreshGrid(tab.menuId)" label="Refresh"></button>
-                <button type="text" (click)="showDialog(tab.menuId)" pButton icon="fa-external-link-square" label="Show"></button>
-                <button pButton type="button" label="Ara"></button>
-
-                <!-- <div class="ui-widget-header" style="padding:4px 10px;border-bottom: 0 none">
-                    <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
-                   <input #gb type="text" pInputText size="50" placeholder="Global Filter">
-                </div>
-                <p-dataTable [value]="cars" [rows]="10" [paginator]="true" [globalFilter]="gb" #dt>
-                    <p-header>List of Cars</p-header>
-                    <p-column field="vin" header="Vin (startsWith)" [filter]="true" filterPlaceholder="Search"></p-column>
-                    <p-column field="year" header="Year ({{yearFilter||'No Filter'}})" [filter]="true" filterMatchMode="equals">
-                        <ng-template pTemplate="filter" let-col>
-                            <i class="fa fa-close" (click)="yearFilter=null;dt.filter(null,col.field,col.filterMatchMode)"></i>
-                        </ng-template>
-                    </p-column>
-                    <p-column field="brand" header="Brand (Custom)" [filter]="true" filterMatchMode="equals">
-                        <ng-template pTemplate="filter" let-col>
-                        </ng-template>
-                    </p-column>
-                    <p-column field="color" header="Color (Custom)" [filter]="true" filterMatchMode="in">
-                        <ng-template pTemplate="filter" let-col>
-                        </ng-template>
-                    </p-column>
-                </p-dataTable>-->
-
             </div>
 
-            <p-dataTable [value]="cars">
-                <p-column *ngFor="let col of cols" [field]="col.field" [header]="col.header"></p-column>
 
-            </p-dataTable>
+            <!-- Search Toolbar-->
+            <div>
+                <p-toolbar>
+                    <div class="ui-toolbar-group-left">
+
+                        <button type="button" pButton (click)="refreshGrid(tab.menuId)" label="Refresh"></button>
+                        <button type="button" pButton (click)="showForm(tab.menuId)" label="New Criteria" icon="fa-plus" style="float:left"></button>
+
+                    </div>
+                </p-toolbar>
+            </div>
+
+            <div>
+                <p-dataTable [value]="cars">
+                    <p-column *ngFor="let col of cols" [field]="col.field" [header]="col.header"></p-column>
+
+                </p-dataTable>
+            </div>
         </div>
-
-        <p-column field="vin" header="Vin" [sortable]="true"></p-column>
-
-
-
-        <!--
-<label>Yeni Menü Adı: <input #newMenuName /></label>
-<button (click)="addHero(newHeroName.value); newHeroName.value=''">Menü Ekle</button>
-
-<p class="error" *ngIf="errorMessage">{{errorMessage}}</p>
-
-
-        <p-fieldset legend="Arama Kriterleri">
-            Buraya dinamik fieldlar gelecek
-        </p-fieldset>
-        
-
-        <p-toolbar>
-
-            <div class="ui-toolbar-group-left">
-                <button pButton type="button" label="New" icon="fa-plus"></button>
-                <button pButton type="button" label="Open" icon="fa-folder-open"></button>
-                <button pButton type="button" (click)="onclick()" label="Click"></button>
-
-                <i class="fa fa-bars"></i>
-
-            </div>
-
-            <div class="ui-toolbar-group-right">
-                <button pButton type="button" icon="fa-search"></button>
-                <i class="fa fa-bars"></i>
-                <button pButton type="button" icon="fa-refresh"></button>
-                <button pButton type="button" icon="fa-trash"></button>
-            </div>
-        </p-toolbar>
-
--->
 
     </p-tabPanel>
 
 </p-tabView>
+
+
+
+
+
+<!-- Search Form -->
+
+<p-dialog header="Yeni Arama Kriteri" [(visible)]="visibleForm" [responsive]="true" showEffect="fade" [modal]="true">
+    <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="searchColumn">
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4"><label for="menuId">Menu</label></div>
+            <div class="ui-grid-col-8"><input pInputText id="menuId" [(ngModel)]="searchColumn.menuId" /></div>
+        </div>
+
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4"><label for="label">Label</label></div>
+            <div class="ui-grid-col-8"><input pInputText id="label" [(ngModel)]="searchColumn.label" /></div>
+        </div>
+
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4"><label for="type">Type</label></div>
+            <div class="ui-grid-col-8">
+                <p-checkbox id="type" binary="true" [(ngModel)]="searchColumn.type"></p-checkbox>
+            </div>
+
+        </div>
+
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4"><label for="shortCode">Short Code</label></div>
+            <div class="ui-grid-col-8"><input pInputText id="shortCode" [(ngModel)]="searchColumn.shortCode"></div>
+        </div>
+
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4"><label for="criteria">Criteria</label></div>
+            <div class="ui-grid-col-8"><textarea pInputTextarea id="criteria" [(ngModel)]="searchColumn.criteria"></textarea></div>
+        </div>
+
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4"><label for="width">Width</label></div>
+            <div class="ui-grid-col-8"><input pInputText id="width" [(ngModel)]="searchColumn.width"></div>
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4"><label for="position">Position</label></div>
+            <div class="ui-grid-col-8"><input pInputText id="position" [(ngModel)]="searchColumn.position"></div>
+        </div>
+    </div>
+
+    <p-footer>
+        <div class="ui-dialog-buttonpane ui-helper-clearfix">
+            <button type="button" pButton icon="fa-check" (click)="save()" label="Kaydet"></button>
+        </div>
+    </p-footer>
+</p-dialog>

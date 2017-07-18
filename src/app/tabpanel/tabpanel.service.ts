@@ -1,28 +1,20 @@
 import { Injectable } from '@angular/core';
-import { FilterList } from '../addfilter/addfilterlist';
-import { AddFilterService } from '../addfilter/addfilter.service';
-import { Filtre } from '../addfilter/addfilter'
-import { Tab } from "./tab";
-import { TAB_LIST } from "./tablist";
 import { Http, Response } from '@angular/http';
+
+import { SearchColumn } from 'app/domain/SearchColumn';
+import { SEARCH_COLUMN_LIST } from 'app/domain/SearchColumnList';
+
+import { Tab } from "app/domain/Tab";
+import { TAB_LIST } from "app/domain/TabList";
 import { Car } from '../domain/car';
+
 import { Observable } from "rxjs/Observable";
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
-import {OverlayPanelModule} from 'primeng/primeng';
-export class CarService {
-  dynamicColumns: any[];
-  loadedData: {};
-  display:boolean=false;
-  private baseUrl: string = 'https://www.primefaces.org/primeng/assets/showcase/data/cars-medium.json';
-  constructor(private http: Http) {
-
-    ;
-  }
-}
+import { OverlayPanelModule } from 'primeng/primeng';
 
 
 @Injectable()
@@ -30,64 +22,43 @@ export class TabpanelService {
   dynamicColumns: any[];
   loadedData: {};
   display: boolean = false;
-  private baseUrl: string = 'https://www.primefaces.org/primeng/assets/showcase/data/cars-medium.json';
+  private carsUrl: string = 'https://www.primefaces.org/primeng/assets/showcase/data/cars-medium.json';
+  
+  private listUrl: string = 'http://localhost:8080/listSearchColumn';
+  private addUrl: string = 'http://localhost:8080/addSearchColumn';
+
   constructor(private http: Http) {
 
-    ;
-  }
-  showDialog() {
-        this.display = true;
-    }
 
-    hideDialog() {
-        this.display = false;
-    }
+  }
+
 
   getSmallCars() {
-    return this.http.get('https://www.primefaces.org/primeng/assets/showcase/data/cars-medium.json')
-                    .toPromise()
-                    .then(res => <Car[]> res.json().data)
-                    .then(data => { return data; });
-                    
+    return this.http.get(this.carsUrl)
+      .toPromise()
+      .then(res => <Car[]>res.json().data)
+      .then(data => {console.log(data); return data; });
 
-  }
-  getHeaders() {
-    let headers = new Headers();
-    headers.append('Accept', 'application/json');
-    return headers;
+
   }
 
 
-  /*
-  mapCar(response:Response): Car[]{
-    // The response of the API has a results
-    // property with the actual results
-    return response.json().results.map(this.toCar)
- }
- toCar(r:any): Car{
-   let araba = <Car>({
-     vin: this.extractId(r),
-     year: r.url,
-     brand: r.name,
-     color: Number.parseInt(r.mass),
-      });
-   console.log('Parsed person:', araba);
-   return araba;
- }
- */
-  extractId(personData: any) {
-    let extractedId = personData.url.replace('https://www.primefaces.org/primeng/assets/showcase/data/cars-medium.json', '').replace('/', '');
-    return parseInt(extractedId);
-  }
-  /* return this.http.get('https://www.primefaces.org/primeng/assets/showcase/data/cars-medium.json')
-   .map(response=>response.json())*/
+  // Arama Kriterlerini serverdan alır
+  callSearchColumnList() {
 
-  /* return this.http.get("https://www.primefaces.org/primeng/assets/showcase/data/cars-medium.json")
-     .map(response=>response.json())
-     .subscribe(araba=>this.loadedData=araba);
-     
-     
- }*/
+    return this.http.get(this.listUrl)
+      .toPromise()
+      .then(res => <SearchColumn[]>res.json());
+  }
+
+  // Yeni arama kriteri eklemek için servera bilgi gönderir
+  postNewSearchColumn(searchColumn: SearchColumn) {
+
+    return this.http.post(this.addUrl, searchColumn)
+      .map(res => res.json());
+
+
+  }
 
 
   addToTabList(tab: Tab): void {
@@ -113,52 +84,44 @@ export class TabpanelService {
       TAB_LIST.push(tab);
     }
   }
-  getMenuId(tab:Tab): number {
-    return tab.menuId;
-  }
-  getTabList(): Tab[] {
+
+  getTabList(){
     return TAB_LIST;
   }
+
+  getMenuId(tab: Tab): number {
+    return tab.menuId;
+  }
+
 
   clearTabList(): void {
     TAB_LIST.splice(0, TAB_LIST.length);
   }
 
- removeByIndexId(index: number) {
+  removeByIndexId(index: number) {
     var deletedTab = TAB_LIST[index];
-    //deletedTab.isSelected=false;
     console.log("index : " + index + " için " + deletedTab.menuName + " siliniyor. deletedTab.isSelected=" + deletedTab.isSelected);
-    //  var deneme=TAB_LIST[index];
-    //  console.log("yeni menu at index: "+deneme.menuName+" "+index);
-    /*var tt ;
-    this.addToTabList(tt);
-    console.log("index : "+index+" için yeni tab "+tt.menuName );
-*/
+
     var dumy = TAB_LIST[index];
     if (deletedTab.isSelected) {
-      // var selectedTab2=TAB_LIST[index-1];
-      // selectedTab2.isSelected=false;o
+
       console.log("TAB_LIST length : " + TAB_LIST.length);
       TAB_LIST[index - 1].isSelected = true;
       TAB_LIST.splice(index, 1);
       console.log("TAB_LIST length : " + TAB_LIST.length);
     }
     else {
-
-      //TAB_LIST[index-1].isSelected=true;
-      // index=index-1;
-      //  var selectedTab = TAB_LIST[index-1];
-      //  selectedTab.isSelected=true;
       console.log("TAB_LIST length : " + TAB_LIST.length);
       dumy.isSelected = true;
       TAB_LIST.splice(index, 1);
       console.log("TAB_LIST length : " + TAB_LIST.length);
-      //  console.log("index : "+index+" için yeni selected tab "+selectedTab.menuName +" oldu");
+
     }
   };
+
   public refreshGrid(menuId: number): any[] {
     var aydi = menuId;
-    if (aydi == 1) {
+    if (aydi == 2) {
       this.dynamicColumns = [
         { field: 'vin', header: 'Vin' },
         { field: 'year', header: 'Year' },
@@ -181,12 +144,5 @@ export class TabpanelService {
     }
     return this.dynamicColumns;
   }
-
- /* public addFilter(menuId: number): any[]{
-    var aydi=menuId;
-    if(aydi==1){
-
-    }
-  }*/
 
 }

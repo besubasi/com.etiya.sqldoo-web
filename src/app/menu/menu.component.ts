@@ -1,24 +1,27 @@
 import { Component, OnInit } from '@angular/core';
 
 import { TabpanelService } from "app/tabpanel/tabpanel.service";
-import { GetMenuService } from "./menu.service";
+import { MenuService } from "./menu.service";
 
-import { DefaultMenuItem } from "../domain/DefaultMenuItem";
-import { Tab } from "app/tabpanel/tab";
+import { Menu } from "../domain/Menu";
+import { Tab } from "app/domain/tab";
 
 @Component({
     selector: 'app-menu',
     templateUrl: './menu.component.html',
     styleUrls: ['./menu.component.css'],
-    providers: [TabpanelService, GetMenuService]
+    providers: [TabpanelService, MenuService]
 
 })
 export class MenuComponent implements OnInit {
 
-    items: DefaultMenuItem[] = [];
-    display: boolean = false;
+    items: Menu[] = [];
 
-    constructor(private tabpanelService: TabpanelService, private getMenuService: GetMenuService) {
+    menu: Menu = new Menu();
+    visibleForm: boolean = false;
+
+
+    constructor(private tabpanelService: TabpanelService, private menuService: MenuService) {
 
     }
 
@@ -33,24 +36,30 @@ export class MenuComponent implements OnInit {
 
 
     ngOnInit() {
-        //this.getMenuService.getMenus().then(tt => this.items = tt  );
-        this.getMenuService.callDynamicMenuList().then(tt => this.setMenuList(tt));
+        this.callDynamicMenuList();
+
 
     }
 
-    setMenuList(menuItemList: DefaultMenuItem[]) {
+    callDynamicMenuList() {
+        this.menuService.callDynamicMenuList().then(tt => this.setMenuList(tt));
+    }
 
-        for (var i = 0; i < menuItemList.length; i++) {
-            this.setCommandAction(menuItemList[i]);
+
+
+    setMenuList(menuList: Menu[]) {
+
+        for (var i = 0; i < menuList.length; i++) {
+            this.setCommandAction(menuList[i]);
         }
 
-        this.items = menuItemList;
+        this.items = menuList;
     }
 
-    setCommandAction(menuItem: DefaultMenuItem) {
+    setCommandAction(menu: Menu) {
 
-        if (!menuItem.folder) {
-            menuItem.command = (event) => {
+        if (!menu.folder) {
+            menu.command = (event) => {
                 //event.originalEvent: Browser event
                 //event.item: menuitem metadata
 
@@ -60,7 +69,7 @@ export class MenuComponent implements OnInit {
                 let tab = new Tab();
                 tab.menuId = theMenu.menuId;
                 tab.menuName = theMenu.label;
-                tab.content = "Detail of " + theMenu.label+", tab.menuId ="+tab.menuId ;
+                tab.content = "Detail of " + theMenu.label + ", tab.menuId =" + tab.menuId;
                 tab.isClosable = true;
                 tab.isSelected = true;
                 this.tabpanelService.addToTabList(tab);
@@ -69,17 +78,29 @@ export class MenuComponent implements OnInit {
 
         }
 
-        if (menuItem.items != null && menuItem.items.length > 0) {
-            for (var k = 0; k < menuItem.items.length; k++) {
-                this.setCommandAction(menuItem.items[k]);
+        if (menu.items != null && menu.items.length > 0) {
+            for (var k = 0; k < menu.items.length; k++) {
+                this.setCommandAction(menu.items[k]);
             }
         }
 
     }
 
 
-    newDialog() {
-        this.display = true;
+    showForm() {
+        this.visibleForm = true;
+    }
+
+
+    save() {
+        this.visibleForm = false;
+
+        this.menuService.postNewMenu(this.menu).subscribe(
+            res => this.callDynamicMenuList(),
+            err => console.log(err),
+            () => console.log('Request Completed')
+        );
+
     }
 
 }
