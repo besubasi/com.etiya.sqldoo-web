@@ -12,28 +12,39 @@ import { TabpanelComponent } from './tabpanel/tabpanel.component';
 import { TabpanelService } from "./tabpanel/tabpanel.service";
 import { MenuComponent } from './menu/menu.component';
 import { MenuService} from './menu/menu.service';
-
+import {LoginService} from 'app/login/login.service';
 import {
   PanelMenuModule, SplitButtonModule, InputTextModule, PanelModule, Fieldset, TabViewModule, DialogModule, FieldsetModule,
   ToolbarModule, DropdownModule, GrowlModule, ButtonModule, DataTableModule, SharedModule, CheckboxModule,InputTextareaModule
 } from 'primeng/primeng';
+import { LoginComponent } from './login/login.component';
+import { HomeComponent } from './home/home.component';
 
 const appRoutes: Routes = [
   {
     path: "",
-    redirectTo: "app",
+    redirectTo: "login",
     pathMatch: "full"
+
   },
   {
     path: "app",
     component: AppComponent
+  },{
+    path:"login",
+    component:LoginComponent
+  },{
+    path:"home",
+    component: HomeComponent
   }];
 
 @NgModule({
   declarations: [
     AppComponent,
     MenuComponent,
-    TabpanelComponent
+    TabpanelComponent,
+    LoginComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -60,6 +71,7 @@ const appRoutes: Routes = [
     InputTextareaModule
   ],
   providers: [
+    LoginService,
     TabpanelService,
     MenuService
   ],
