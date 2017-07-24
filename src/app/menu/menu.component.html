@@ -13,36 +13,40 @@
 <!-- Menu Form -->
 
 <p-dialog header="New Menu" [(visible)]="visibleForm" [responsive]="true" showEffect="fade" [modal]="true">
-    <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="menu">
-        <div class="ui-grid-row">
+    <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="newMenu">
+        <div class="ui-grid-row">            
+            
             <div class="ui-grid-col-4"><label for="parentMenuId">Parent Menu</label></div>
-            <div class="ui-grid-col-8"><input pInputText id="parentMenuId" [(ngModel)]="menu.parentMenuId" /></div>
+            <div class="ui-grid-col-8">
+                <p-dropdown id="parentMenuId" [options]="itemsParentMenu" [(ngModel)]="selectedParentMenu"></p-dropdown>
+            </div>
+            
         </div>
 
         <div class="ui-grid-row">
             <div class="ui-grid-col-4"><label for="label">Menu Adı</label></div>
-            <div class="ui-grid-col-8"><input pInputText id="label" [(ngModel)]="menu.label" /></div>
+            <div class="ui-grid-col-8"><input pInputText id="label" [(ngModel)]="newMenu.label" /></div>
         </div>
 
         <div class="ui-grid-row">
             <div class="ui-grid-col-4"><label for="folder">Folder</label></div>
-            <div class="ui-grid-col-8"><p-checkbox [(ngModel)]="menu.folder" id="folder" binary="true"></p-checkbox></div>
+            <div class="ui-grid-col-8"><p-checkbox [(ngModel)]="newMenu.folder" id="folder" binary="true"></p-checkbox></div>
             
         </div>  
 
         <div class="ui-grid-row">
             <div class="ui-grid-col-4"><label for="select">Select</label></div>
-            <div class="ui-grid-col-8"><textarea pInputTextarea id="select" [(ngModel)]="menu.select"></textarea></div>
+            <div class="ui-grid-col-8"><textarea pInputTextarea id="select" [(ngModel)]="newMenu.select"></textarea></div>
         </div>
 
         <div class="ui-grid-row">
             <div class="ui-grid-col-4"><label for="from">From</label></div>
-            <div class="ui-grid-col-8"><textarea pInputTextarea  id="from" [(ngModel)]="menu.from"></textarea></div>
+            <div class="ui-grid-col-8"><textarea pInputTextarea  id="from" [(ngModel)]="newMenu.from"></textarea></div>
         </div>
 
         <div class="ui-grid-row">
             <div class="ui-grid-col-4"><label for="where">Where</label></div>
-            <div class="ui-grid-col-8"><textarea pInputTextarea id="where" [(ngModel)]="menu.where"></textarea></div>
+            <div class="ui-grid-col-8"><textarea pInputTextarea id="where" [(ngModel)]="newMenu.where"></textarea></div>
         </div>        
     </div>
 

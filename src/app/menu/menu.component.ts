@@ -4,7 +4,8 @@ import { TabpanelService } from "app/tabpanel/tabpanel.service";
 import { MenuService } from "./menu.service";
 
 import { Menu } from "../domain/Menu";
-import { Tab } from "app/domain/tab";
+import { Tab } from "app/domain/Tab";
+import { SelectItem } from 'primeng/components/common/api';
 
 @Component({
     selector: 'app-menu',
@@ -17,8 +18,12 @@ export class MenuComponent implements OnInit {
 
     items: Menu[] = [];
 
-    menu: Menu = new Menu();
+    newMenu: Menu = new Menu();
     visibleForm: boolean = false;
+
+    itemsParentMenu: SelectItem[] = [];
+    selectedParentMenu: Menu = new Menu();
+
 
 
     constructor(private tabpanelService: TabpanelService, private menuService: MenuService) {
@@ -36,18 +41,27 @@ export class MenuComponent implements OnInit {
 
 
     ngOnInit() {
-        this.callDynamicMenuList();
+        this.visibleForm = false;
+        this.listMyMenu();
 
 
     }
 
-    callDynamicMenuList() {
-        this.menuService.callDynamicMenuList().then(tt => this.setMenuList(tt));
+    listMyMenu() {
+        this.items.splice(0,this.items.length);
+        this.itemsParentMenu.splice(0,this.itemsParentMenu.length);
+
+        this.menuService.listMyMenu().subscribe(
+            res => this.setMenuList(res),
+            error => console.log(error),
+            () => console.log('Request Erro')
+        );
     }
 
 
 
     setMenuList(menuList: Menu[]) {
+        console.log(menuList);
 
         for (var i = 0; i < menuList.length; i++) {
             this.setCommandAction(menuList[i]);
@@ -76,6 +90,8 @@ export class MenuComponent implements OnInit {
 
             }
 
+        } else {
+            this.itemsParentMenu.push({ label: menu.label, value: menu });
         }
 
         if (menu.items != null && menu.items.length > 0) {
@@ -95,12 +111,23 @@ export class MenuComponent implements OnInit {
     save() {
         this.visibleForm = false;
 
-        this.menuService.postNewMenu(this.menu).subscribe(
-            res => this.callDynamicMenuList(),
-            err => console.log(err),
+        console.log("selectedParentMenu = ");
+        console.log(this.selectedParentMenu);
+
+
+        this.newMenu.parentMenuId = this.selectedParentMenu.menuId;
+
+        this.menuService.addMenu(this.newMenu).subscribe(
+            res => {
+                this.newMenu = new Menu();
+                this.listMyMenu()
+            },
+            error => console.log(error),
             () => console.log('Request Completed')
         );
 
     }
+
+
 
 }

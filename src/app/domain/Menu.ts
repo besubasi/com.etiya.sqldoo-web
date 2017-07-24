@@ -19,7 +19,7 @@ export class Menu implements MenuItem {
     routerLinkActiveOptions?: any;
     separator?: boolean;
 
-    menuId?: string;
+    menuId?: number;
     parentMenuId?: number;
     userId?: number;
     select?:string;

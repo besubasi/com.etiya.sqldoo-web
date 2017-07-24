@@ -12,14 +12,14 @@ export class HomeComponent implements OnInit {
   }
   ngOnInit() {
 
-    if (typeof (Storage) == 'undefined' || sessionStorage.getItem('AccountToken') == null) {
+    if (typeof (Storage) == 'undefined' || sessionStorage.getItem('currentUser') == null) {
       this.router.navigateByUrl("/login");
     }
 
 
   }
   logout() {
-    sessionStorage.removeItem('AccountToken');
+    sessionStorage.removeItem('currentUser');
     this.router.navigate(["/login"]);
   }
 }

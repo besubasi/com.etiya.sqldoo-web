@@ -1,4 +1,4 @@
-export class Account {
+export class CurrentUser {
     userId: number;
     userName: string;
     password: string;

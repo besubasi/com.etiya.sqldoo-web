@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Account } from 'app/domain/account';
+import { CurrentUser } from 'app/domain/CurrentUser';
 import { LoginService } from 'app/login/login.service';
 import { Router } from '@angular/router';
-import {Message} from 'primeng/primeng';
+import { Message } from 'primeng/primeng';
 import 'rxjs/add/operator/toPromise';
+
+import { TabpanelService } from "app/tabpanel/tabpanel.service";
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -14,60 +16,35 @@ export class LoginComponent implements OnInit {
   private password: string;
   private msgs: Message[] = [];
 
-  constructor(private loginService: LoginService, private router: Router) { }
+  constructor(private loginService: LoginService, private tabpanelService: TabpanelService, private router: Router) { }
 
   ngOnInit() {
 
-    if (typeof (Storage) !== 'undefined' && sessionStorage.getItem('AccountToken')) {
+    if (typeof (Storage) !== 'undefined' && sessionStorage.getItem('currentUser')) {
+      this.tabpanelService.clearTabList();
       this.router.navigateByUrl("/home");
     }
 
-    /*
-        this.utility.isLogged().then((result: boolean) => {
-          if (result) {
-            this.router.navigateByUrl("/home");
-          }
-    
-        })
-        */
-    // this.callDynamicUserList();
   }
-  /*callDynamicUserList(){
-    this.loginService.callDynamicUserList().then(tt => this.login());
-  }*/
+
   login() {
 
-    let account = new Account();
-    account.userName = this.userName;
-    account.password = this.password;
+    this.loginService.login(this.userName, this.password).subscribe(
+      res => {
+        if (res != null && res.token != null) {
+          if (typeof (Storage) !== 'undefined') {
+            sessionStorage.setItem('currentUser', JSON.stringify(res));
+          }
 
-    let result  = this.loginService.login(account).subscribe(
-      res => this.handleLoginResponse(res),
-      () => this.handleLoginResponse(null)
+
+          this.tabpanelService.clearTabList();
+          this.router.navigateByUrl("/home");
+        } else {
+          this.msgs.push({ severity: 'error', summary: 'Wrong Account', detail: 'Try again' });
+        }
+      },
+      () => this.msgs.push({ severity: 'error', summary: 'Wrong Account', detail: 'Try again' })
     );
-    
-    if(result){
-      this.router.navigateByUrl("/home");
-    }
+
   }
-
-  handleLoginResponse(account: Account): boolean {
-
-    if (account == null || account.token == null) {
-      alert("error..Try again");
-      this.msgs.push({ severity: 'error', summary: 'Wrong Account', detail: 'Try again' });
-      return false;
-    }
-
-    if (typeof (Storage) !== 'undefined') {
-      sessionStorage.setItem('AccountUserId', account.userId + "");
-      sessionStorage.setItem('AccountToken', account.token);
-      sessionStorage.setItem('AccountDescription', account.description);
-    }
-    
-    this.router.navigateByUrl("/home");
-    return true;
-  }
-
-
 }

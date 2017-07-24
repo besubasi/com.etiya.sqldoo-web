@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, RequestOptions, Headers } from '@angular/http';
+import { CurrentUser } from "app/domain/CurrentUser";
+
 import { Observable } from 'rxjs/Observable';
-import { Account } from 'app/domain/account';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map'
 
@@ -9,19 +10,15 @@ import 'rxjs/add/operator/map'
 @Injectable()
 export class LoginService {
 
-  private dynamicUserUrl: string = 'http://localhost:8080/authentication';
+  private authenticateUrl: string = 'http://localhost:8080/authenticate';
+  private headers = new Headers({ 'Content-Type': 'application/json' });
+
   constructor(private http: Http) { }
 
 
-  login(account:Account) {
-
-
-    console.log(account);
-
-    return this.http.post(this.dynamicUserUrl, account)
-      .map(res => res.json())
-
-
+  login(userName: string, password: string): Observable<CurrentUser> {
+    return this.http.post(this.authenticateUrl, JSON.stringify({ userName: userName, password: password }), { headers: this.headers })
+      .map(res => res.json() || {})
   }
 
 

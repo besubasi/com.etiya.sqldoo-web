@@ -9,7 +9,7 @@ import { SEARCH_COLUMN_LIST } from 'app/domain/SearchColumnList';
 import { Car } from "app/domain/Car";
 
 
-import { TAB_LIST } from "app/domain/tablist";
+import { TAB_LIST } from "app/domain/TabList";
 
 
 @Component({
