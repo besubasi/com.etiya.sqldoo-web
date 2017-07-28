@@ -6,7 +6,7 @@ import { MenuService } from "./menu.service";
 import { Menu } from "../domain/Menu";
 import { Tab } from "app/domain/Tab";
 import { SelectItem } from 'primeng/components/common/api';
-
+import { CurrentUser } from "app/domain/CurrentUser";
 @Component({
     selector: 'app-menu',
     templateUrl: './menu.component.html',
@@ -113,10 +113,14 @@ export class MenuComponent implements OnInit {
 
         console.log("selectedParentMenu = ");
         console.log(this.selectedParentMenu);
+let currentUser :CurrentUser;
 
+    if (typeof (Storage) !== 'undefined') {
+      currentUser = JSON.parse(sessionStorage.getItem("currentUser"));
+    }
 
         this.newMenu.parentMenuId = this.selectedParentMenu.menuId;
-
+        this.newMenu.userId=currentUser.userId;
         this.menuService.addMenu(this.newMenu).subscribe(
             res => {
                 this.newMenu = new Menu();

@@ -30,6 +30,10 @@ export class MenuService {
     }
 
     console.log("currentUser="+currentUser);
+    
+    console.log(currentUser.userId);
+    console.log(currentUser.userName);
+    
 
     return this.http.post(this.listMyMenuUrl, JSON.stringify({userId: currentUser.userId}), {headers: this.headers})
       .map(res => res.json() || {})
