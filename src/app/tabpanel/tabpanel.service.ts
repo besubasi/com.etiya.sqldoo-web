@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 
-import { SearchColumn } from 'app/domain/SearchColumn';
-import { SEARCH_COLUMN_LIST } from 'app/domain/SearchColumnList';
+import { Criteria } from 'app/domain/Criteria';
+import { CRITERIA_LIST } from 'app/domain/CriteriaList';
 
 import { Tab } from "app/domain/Tab";
 import { TAB_LIST } from "app/domain/TabList";
@@ -24,8 +24,8 @@ export class TabpanelService {
   display: boolean = false;
   private carsUrl: string = 'https://www.primefaces.org/primeng/assets/showcase/data/cars-medium.json';
   
-  private listUrl: string = 'http://localhost:8080/listSearchColumn';
-  private addUrl: string = 'http://localhost:8080/addSearchColumn';
+  private listUrl: string = 'http://localhost:8080/criteria/listCriteria';
+  private addUrl: string = 'http://localhost:8080/criteria/addCriteria';
 
   constructor(private http: Http) {
 
@@ -48,11 +48,11 @@ export class TabpanelService {
 
     return this.http.get(this.listUrl)
       .toPromise()
-      .then(res => <SearchColumn[]>res.json());
+      .then(res => <Criteria[]>res.json());
   }
 
   // Yeni arama kriteri eklemek için servera bilgi gönderir
-  postNewSearchColumn(searchColumn: SearchColumn) {
+  postNewSearchColumn(searchColumn: Criteria) {
 
     return this.http.post(this.addUrl, searchColumn)
       .map(res => res.json());

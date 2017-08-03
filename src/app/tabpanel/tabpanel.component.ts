@@ -4,12 +4,12 @@ import { Router } from '@angular/router';
 import { TabpanelService } from "app/tabpanel/tabpanel.service";
 
 import { Tab } from "app/domain/Tab";
-import { SearchColumn } from 'app/domain/SearchColumn';
-import { SEARCH_COLUMN_LIST } from 'app/domain/SearchColumnList';
+import { TAB_LIST } from "app/domain/TabList";
+import { Criteria } from 'app/domain/Criteria';
+import { CRITERIA_LIST } from 'app/domain/CriteriaList';
 import { Car } from "app/domain/Car";
 
 
-import { TAB_LIST } from "app/domain/TabList";
 
 
 @Component({
@@ -28,10 +28,10 @@ export class TabpanelComponent implements OnInit {
 
 
 
-  columns: SearchColumn[];
+  columns: Criteria[];
 
   visibleForm: boolean = false;
-  searchColumn: SearchColumn;
+  newCriteria: Criteria;
 
 
   cols: any[];
@@ -72,8 +72,8 @@ export class TabpanelComponent implements OnInit {
 
 
   showForm(menuId:number) {
-    this.searchColumn = new SearchColumn();
-    this.searchColumn.menuId=menuId;
+    this.newCriteria = new Criteria();
+    this.newCriteria.menuId=menuId;
 
     this.visibleForm = true;
   }
@@ -82,7 +82,7 @@ export class TabpanelComponent implements OnInit {
   save() {
     this.visibleForm = false;
 
-    this.tabpanelService.postNewSearchColumn(this.searchColumn).subscribe(
+    this.tabpanelService.postNewSearchColumn(this.newCriteria).subscribe(
       res => console.log(res),
       err => console.log(err),
       () => console.log('Request Completed')

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CurrentUser } from 'app/domain/CurrentUser';
+import { User } from 'app/domain/User';
 import { LoginService } from 'app/login/login.service';
 import { Router } from '@angular/router';
 import { Message } from 'primeng/primeng';

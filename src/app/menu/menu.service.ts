@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Menu } from "app/domain/Menu";
-import { CurrentUser } from "app/domain/CurrentUser";
+import { User } from "app/domain/User";
 
 
 import { Http,  Response, Headers } from '@angular/http';
@@ -12,8 +12,8 @@ import 'rxjs/add/observable/throw';
 
 @Injectable()
 export class MenuService {
-  private listMyMenuUrl: string = 'http://localhost:8080/listMyMenu';
-  private addMenuUrl: string = 'http://localhost:8080/addMenu';
+  private listMyMenuUrl: string = 'http://localhost:8080/menu/listMyMenu';
+  private addMenuUrl: string = 'http://localhost:8080/menu/addMenu';
   private headers = new Headers({'Content-Type': 'application/json'});
 
 
@@ -23,7 +23,7 @@ export class MenuService {
 
 
   listMyMenu(): Observable<Menu[]> {
-    let currentUser :CurrentUser;
+    let currentUser :User;
 
     if (typeof (Storage) !== 'undefined') {
       currentUser = JSON.parse(sessionStorage.getItem("currentUser"));

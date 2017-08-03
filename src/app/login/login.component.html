@@ -1,11 +1,36 @@
-<div class="main_content">
-  <h3>Login Page</h3>
-    <span>Username:</span>
-    <input type="text" pInputText [(ngModel)]="userName"/><br>
-    <span>Password:</span>
-    <input type="password" pInputText [(ngModel)]="password"/><br>
-  <button pButton type="button" (click)="login()" label="Login"></button>
-  <!-- <a [routerLink]="['/login']" class="btn btn-link">Register</a>-->
-  
+<div class="ui-g">
+  <div class="ui-lg-12 ui-md-12 ui-sm-12 center-login">
+
+    <p-panel header="Login">
+
+
+        <label for="userName">UserName :</label>
+        <input pInputText id="userName" [(ngModel)]="userName" />
+        <br>
+
+        <label for="password">Password  :</label>
+        <input type="password" pInputText id="password" [(ngModel)]="password" />
+        <br>
+        <button type="button" pButton (click)="login()" label="Login"></button>
+
+<!--
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="userName">User Name</label></div>
+        <div class="ui-grid-col-8"><input pInputText id="userName" [(ngModel)]="userName" /></div>
+      </div>
+
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="password">Password</label></div>
+        <div class="ui-grid-col-8"><input type="password" pInputText id="password" [(ngModel)]="password" /></div>
+      </div>
+
+      <p-footer>
+        <div class="ui-dialog-buttonpane ui-helper-clearfix">
+        </div>
+      </p-footer>
+-->
+
+    </p-panel>
+
+  </div>
 </div>
-<p-growl [value]="msgs"></p-growl>
